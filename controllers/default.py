@@ -57,6 +57,26 @@ def torus():
     obj.isosurface(field,0.5,0.0,red=255,green=0,blue=0)
     return dict(obj=obj, legend=legend)
 
+def molecule():   
+    legend = """
+    A molecule
+    """
+    response.view='default/p3d.html'
+    obj=p3d.P3D(onrotate=URL(r=request,f='onrotate'))
+    for i in range(-5,5,1):
+        obj.line(30*i,0,0,30+30*i,0,0)
+        obj.sphere(30+30*i,0,0,20,red=250,green=250,blue=200)
+        if i>-5:
+            (x1,y1) = 50*sin(10.*i), 50*cos(10.*i)
+            (x2,y2) = 50*sin(3.14+10.*i), 50*cos(3.14+10.*i)
+            obj.line(30*i,0,0,30*i,x1,y1)
+            obj.line(30*i,0,0,30*i,x2,y2)
+            obj.sphere(30*i,x1,y1,30,red=255,green=0,blue=0)
+            obj.sphere(30*i,x2,y2,30,red=0,green=0,blue=255)
+        else:
+            obj.sphere(30*i,0,0,20,red=250,green=250,blue=200)
+    return dict(obj=obj, legend=legend)
+
 
 def onrotate():
     """this callback funcion is called via ajax to report the current angles"""
