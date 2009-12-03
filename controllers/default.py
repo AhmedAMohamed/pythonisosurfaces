@@ -15,7 +15,7 @@ def isosurface():
     """
     response.view='default/p3d.html'
     import os
-    obj=p3d.P3D(300,onrotate=URL(r=request,f='onrotate'))
+    obj=p3d.P3D(400,onrotate=URL(r=request,f='onrotate'))
     field = p3d.read_vtk(os.path.join(request.folder,
                                       'private/topological_charge2.vtk'))
     obj.isosurface(field,0.3,0.0,red=255,green=0,blue=0)
