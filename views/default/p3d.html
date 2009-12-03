@@ -1,0 +1,12 @@
+{{response.files.append(URL(r=request,c='static',f='processing.min.js'))}}
+{{response.files.append(URL(r=request,c='static',f='processing.init.js'))}}
+{{extend 'layout.html'}}
+
+<h1>{{=request.function.capitalize()}}</h1>
+<br/>
+<div style="text-align: center;">
+{{=obj}}
+</div>
+<p>
+{{=legend}}
+</p>
