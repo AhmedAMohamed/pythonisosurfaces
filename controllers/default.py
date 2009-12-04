@@ -8,20 +8,21 @@ session.forget()
 def index():
     return dict()
 
+@cache('isosurface',time_expire=600,cache_model=cache.ram)
 def isosurface():   
     legend="""
     Sample iso-surface for topological charge density in 
     Quantum Chromo Dynamics
     """
-    response.view='default/p3d.html'
     import os
     obj=p3d.P3D(400,onrotate=URL(r=request,f='onrotate'))
     field = p3d.read_vtk(os.path.join(request.folder,
                                       'private/topological_charge2.vtk'))
     obj.isosurface(field,0.3,0.0,red=255,green=0,blue=0)
     obj.isosurface(field,0.0,0.3,red=0,green=0,blue=255)
-    return dict(obj=obj, legend=legend)
+    return response.render('default/p3d.html', obj=obj, legend=legend)
 
+@cache('func',time_expire=600,cache_model=cache.ram)
 def func():    
     legend = """
     3D Plot of f(x,y,z) = sin(r)/r
@@ -32,8 +33,9 @@ def func():
     field = p3d.make_points(lambda x,y,z: y + u(x**2+z**2),
                             (-10,10,1), (-2,2,0.5),(-10,10,1))
     obj.isosurface(field,0.0,0.0,red=0,green=255,blue=0)
-    return dict(obj=obj, legend=legend)
+    return response.render('default/p3d.html', obj=obj, legend=legend)
 
+@cache('star',time_expire=600,cache_model=cache.ram)
 def star():
     legend = """
     Iso-surface for f(x,y,z) = (x*y*z)**2
@@ -43,9 +45,9 @@ def star():
     field = p3d.make_points(lambda x,y,z: (x*y*z)**2,
                             (-2,2,0.5), (-2,2,0.5), (-2,2,0.5))
     obj.isosurface(field,0.01,0.0,red=250,green=250,blue=110)
-    return dict(obj=obj, legend=legend)
+    return response.render('default/p3d.html', obj=obj, legend=legend)
 
-
+@cache('torus',time_expire=600,cache_model=cache.ram)
 def torus():   
     legend = """
     A simple torus
@@ -55,8 +57,9 @@ def torus():
     field = p3d.make_points(lambda x,y,z: cos(x**2+y**2-2.6)-z**2,
                             (-2,2,0.2), (-2,2,0.2), (-3,3,0.5))
     obj.isosurface(field,0.5,0.0,red=255,green=0,blue=0)
-    return dict(obj=obj, legend=legend)
+    return response.render('default/p3d.html', obj=obj, legend=legend)
 
+@cache('molecule',time_expire=600,cache_model=cache.ram)
 def molecule():   
     legend = """
     A molecule
@@ -75,7 +78,7 @@ def molecule():
             obj.sphere(30*i,x2,y2,30,red=0,green=0,blue=255)
         else:
             obj.sphere(30*i,0,0,20,red=250,green=250,blue=200)
-    return dict(obj=obj, legend=legend)
+    return response.render('default/p3d.html', obj=obj, legend=legend)
 
 
 def onrotate():
